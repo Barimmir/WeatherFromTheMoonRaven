@@ -22,7 +22,7 @@ data class CurrentDTO(
     @SerialName("weather_code")
     val weatherCode: Int,
     @SerialName("relative_humidity_2m")
-    val relativeHumidity: Int,
+    val relativeHumidity: Double,
     @SerialName("wind_speed_10m")
     val windSpeed: Double,
 )
