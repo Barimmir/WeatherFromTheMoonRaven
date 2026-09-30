@@ -16,8 +16,9 @@ object NetworkModule {
     }
     private val okHttpClient: OkHttpClient =
         OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
-    val retrofit: Retrofit =
+    private val retrofit: Retrofit =
         Retrofit.Builder().baseUrl(ConstantNetwork.BASE_URL).client(okHttpClient)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
+    val weatherApi: WeatherApi = retrofit.create(WeatherApi::class.java)
 }

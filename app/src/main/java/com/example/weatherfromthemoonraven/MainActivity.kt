@@ -1,6 +1,7 @@
 package com.example.weatherfromthemoonraven
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -9,8 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.weatherfromthemoonraven.data.api.NetworkModule
 import com.example.weatherfromthemoonraven.ui.theme.WeatherFromTheMoonRavenTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,6 +21,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            LaunchedEffect(Unit) {
+                try {
+                   val response = NetworkModule.weatherApi.getCurrentWeather(
+                        latitude = 52.52,
+                        longitude = 13.41,
+                        current = "temperature_2m,apparent_temperature,is_day,wind_speed_10m,weather_code,relative_humidity_2m"
+                    )
+                    Log.d("Weather", response.toString())
+                } catch (e: Exception) {
+                    Log.e("Weather", "Ошибка", e)
+                }
+            }
             WeatherFromTheMoonRavenTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
