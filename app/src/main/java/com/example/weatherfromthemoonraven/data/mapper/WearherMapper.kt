@@ -15,11 +15,15 @@ fun CurrentDTO.toDomain(): CurrentWeather {
         time = time,
         temperature = temperature,
         apparentTemperature = apparentTemperature,
-        isDay = isDay == 1,
+        isDay = isDay.isDayConverter(),
         weatherType = weatherCode.weatherTypeConverter(),
         relativeHumidity = relativeHumidity,
         windSpeed = windSpeed
     )
+}
+
+private fun Int.isDayConverter(): Boolean {
+    return this != 0
 }
 
 private fun Int.weatherTypeConverter(): WeatherType {
