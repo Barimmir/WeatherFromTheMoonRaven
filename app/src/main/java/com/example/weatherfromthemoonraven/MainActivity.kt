@@ -21,18 +21,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            LaunchedEffect(Unit) {
-                try {
-                   val response = NetworkModule.weatherApi.getCurrentWeather(
-                        latitude = 52.52,
-                        longitude = 13.41,
-                        current = "temperature_2m,apparent_temperature,is_day,wind_speed_10m,weather_code,relative_humidity_2m"
-                    )
-                    Log.d("Weather", response.toString())
-                } catch (e: Exception) {
-                    Log.e("Weather", "Ошибка", e)
-                }
-            }
             WeatherFromTheMoonRavenTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
