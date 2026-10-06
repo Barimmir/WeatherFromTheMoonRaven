@@ -18,18 +18,22 @@ class WeatherViewModel(
 
     fun onAction(action: WeatherAction) {
         when (action) {
-            is WeatherAction.LoadWeather -> getLoadWeather()
+            is WeatherAction.LoadWeather -> loadWeather()
             is WeatherAction.Refresh -> refresh()
         }
     }
 
-    private fun getLoadWeather() {
+    private fun loadWeather() {
         viewModelScope.launch {
-
+            _state.value = _state.value.copy(isLoading = true, error = null)
+            val result = weatherRepository.getCurrentWeather(52.52, 13.41)
+            result.onSuccess { weather ->
+                _state.value = _state.value.copy(weather = weather, isLoading = false)
+            }.onFailure { exception ->
+                _state.value = _state.value.copy(error = exception.message, isLoading = false)
+            }
         }
-
     }
-
     private fun refresh() {}
 
 }
