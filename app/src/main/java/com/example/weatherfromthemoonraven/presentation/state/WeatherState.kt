@@ -7,9 +7,7 @@ data class WeatherState(
     val weather: Weather? = null,
     val isLoading: Boolean = false,
     val error: String? = null,
-    val searchQuery: String = "",
-    val cities: List<City> = emptyList(),
     val isSearching: Boolean = false,
-    val searchError: String? = "",
-    val isSearchMode: Boolean = false,
+    val searchError: String? = null,
+    val selectedCity: City? = null
 )
