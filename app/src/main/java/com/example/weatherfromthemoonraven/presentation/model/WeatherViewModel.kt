@@ -10,6 +10,7 @@ import com.example.weatherfromthemoonraven.presentation.state.WeatherState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(
@@ -33,39 +34,41 @@ class WeatherViewModel(
         longitude: Double
     ) {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true, error = null)
+            _state.update { it.copy(isLoading = true, error = null) }
             val result =
                 weatherRepository.getCurrentWeather(latitude = latitude, longitude = longitude)
             result.onSuccess { weather ->
-                _state.value = _state.value.copy(weather = weather, isLoading = false)
+                _state.update { it.copy(weather = weather, isLoading = false) }
             }.onFailure { exception ->
-                _state.value = _state.value.copy(error = exception.message, isLoading = false)
+                _state.update { it.copy(error = exception.message, isLoading = false) }
             }
         }
     }
 
     private fun searchCity(name: String) {
         viewModelScope.launch {
-            _state.value =
-                _state.value.copy(isSearching = true, searchError = null)
+            _state.update { it.copy(isSearching = true, searchError = null) }
             val result = geocodingRepository.searchCity(name = name)
             result.onSuccess { geocoding ->
                 val city = geocoding.results?.firstOrNull()
                 if (city != null) {
-                    _state.value = _state.value.copy(
-                        selectedCity = city,
-                        isSearching = false,
-                    )
+                    _state.update {
+                        it.copy(
+                            selectedCity = city,
+                            isSearching = false,
+                        )
+                    }
                     loadWeather(latitude = city.latitude, longitude = city.longitude)
                 } else {
-                    _state.value = _state.value.copy(
-                        isSearching = false,
-                        searchError = "Город не найден",
-                    )
+                    _state.update {
+                        it.copy(
+                            isSearching = false,
+                            searchError = "Город не найден",
+                        )
+                    }
                 }
             }.onFailure { exception ->
-                _state.value =
-                    _state.value.copy(searchError = exception.message, isSearching = false)
+                _state.update { it.copy(searchError = exception.message, isSearching = false) }
             }
         }
     }
