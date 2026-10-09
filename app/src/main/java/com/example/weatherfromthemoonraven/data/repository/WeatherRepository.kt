@@ -6,14 +6,14 @@ import com.example.weatherfromthemoonraven.data.mapper.toDomain
 import com.example.weatherfromthemoonraven.domain.Weather
 
 class WeatherRepository(
-    val api: WeatherApi,
+    val weatherApi: WeatherApi,
 ) {
     suspend fun getCurrentWeather(
         latitude: Double,
         longitude: Double,
     ): Result<Weather> {
         return try {
-            val response = api.getCurrentWeather(
+            val response = weatherApi.getCurrentWeather(
                 latitude = latitude,
                 longitude = longitude,
                 current = ConstantNetwork.CURRENT_REQUEST
