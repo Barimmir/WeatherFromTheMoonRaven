@@ -16,9 +16,14 @@ object NetworkModule {
     }
     private val okHttpClient: OkHttpClient =
         OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
-    private val retrofit: Retrofit =
-        Retrofit.Builder().baseUrl(ConstantNetwork.BASE_URL).client(okHttpClient)
+    private val weatherRetrofit: Retrofit =
+        Retrofit.Builder().baseUrl(ConstantNetwork.BASE_WEATHER_URL).client(okHttpClient)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
-    val weatherApi: WeatherApi = retrofit.create(WeatherApi::class.java)
+    val weatherApi: WeatherApi = weatherRetrofit.create(WeatherApi::class.java)
+    private val geocodingRetrofit: Retrofit =
+        Retrofit.Builder().baseUrl(ConstantNetwork.BASE_GEOCODING_URL).client(okHttpClient)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    val geocodingApi: GeocodingApi = geocodingRetrofit.create(GeocodingApi::class.java)
 }

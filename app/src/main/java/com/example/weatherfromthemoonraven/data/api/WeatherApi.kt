@@ -10,4 +10,16 @@ interface WeatherApi {
         @Query("longitude") longitude: Double,
         @Query("current") current: String,
     ): WeatherResponse
+
+
+}
+
+interface GeocodingApi {
+    @GET("v1/search")
+    suspend fun searchCity(
+        @Query("name") name: String,
+        @Query("count") count: Int = 10,
+        @Query("language") language: String = "en",
+        @Query("format") format: String = "json"
+    ): GeocodingResponse
 }

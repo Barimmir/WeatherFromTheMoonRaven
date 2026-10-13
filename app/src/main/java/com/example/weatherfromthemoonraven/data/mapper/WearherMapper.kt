@@ -1,8 +1,12 @@
 package com.example.weatherfromthemoonraven.data.mapper
 
+import com.example.weatherfromthemoonraven.data.api.CityDTO
 import com.example.weatherfromthemoonraven.data.api.CurrentDTO
+import com.example.weatherfromthemoonraven.data.api.GeocodingResponse
 import com.example.weatherfromthemoonraven.data.api.WeatherResponse
+import com.example.weatherfromthemoonraven.domain.City
 import com.example.weatherfromthemoonraven.domain.CurrentWeather
+import com.example.weatherfromthemoonraven.domain.Geocoding
 import com.example.weatherfromthemoonraven.domain.Weather
 import com.example.weatherfromthemoonraven.domain.WeatherType
 
@@ -39,4 +43,21 @@ private fun Int.weatherTypeConverter(): WeatherType {
         95, 96, 99 -> WeatherType.THUNDERSTORM
         else -> WeatherType.UNKNOWN
     }
+}
+
+fun GeocodingResponse.toDomain(): Geocoding {
+    return Geocoding(results = results?.toDomain())
+}
+
+fun CityDTO.toDomain(): City {
+    return City(
+        id = id, name = name,
+        latitude = latitude,
+        longitude = longitude,
+        country = country
+    )
+}
+
+private fun List<CityDTO>.toDomain(): List<City> {
+    return this.map { it.toDomain() }
 }
