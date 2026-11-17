@@ -20,24 +20,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.weatherfromthemoonraven.data.api.NetworkModule
-import com.example.weatherfromthemoonraven.data.repository.GeocodingRepository
-import com.example.weatherfromthemoonraven.data.repository.WeatherRepository
 import com.example.weatherfromthemoonraven.presentation.action.WeatherAction
 import com.example.weatherfromthemoonraven.presentation.model.WeatherViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
+    viewModel: WeatherViewModel = koinViewModel()
 ) {
-    val viewModel = remember {
-        WeatherViewModel(
-            WeatherRepository(NetworkModule.weatherApi), GeocodingRepository(
-                NetworkModule.geocodingApi
-            )
-        )
-    }
     val state by viewModel.state.collectAsStateWithLifecycle()
     var query by remember { mutableStateOf("") }
     Scaffold(topBar = {

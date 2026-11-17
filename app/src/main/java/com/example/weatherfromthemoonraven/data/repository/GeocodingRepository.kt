@@ -5,7 +5,7 @@ import com.example.weatherfromthemoonraven.data.mapper.toDomain
 import com.example.weatherfromthemoonraven.domain.Geocoding
 
 class GeocodingRepository(
-    val geocodingApi: GeocodingApi
+    private val geocodingApi: GeocodingApi
 ) {
     suspend fun searchCity(name: String): Result<Geocoding> {
         return try {

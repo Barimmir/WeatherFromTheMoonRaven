@@ -6,7 +6,7 @@ import com.example.weatherfromthemoonraven.data.mapper.toDomain
 import com.example.weatherfromthemoonraven.domain.Weather
 
 class WeatherRepository(
-    val weatherApi: WeatherApi,
+   private val weatherApi: WeatherApi,
 ) {
     suspend fun getCurrentWeather(
         latitude: Double,
